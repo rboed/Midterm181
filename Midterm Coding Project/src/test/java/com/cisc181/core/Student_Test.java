@@ -81,88 +81,26 @@ public class Student_Test {
 		Courses.add(new Course("Chem103", 3, eMajor.CHEM));
 		
 		Semesters = new ArrayList<Semester>(2);
-		cal.set(2015,  Calendar.SEPTEMBER, 1);
+		cal.set(2016,  Calendar.SEPTEMBER, 1);
 		Date startDate = cal.getTime();
-		cal.set(2015,  Calendar.DECEMBER, 19);
+		cal.set(2016,  Calendar.JANUARY, 1);
 		Date endDate = cal.getTime();
 		Semesters.add(new Semester(startDate, endDate));
-		cal.set(2016,  Calendar.FEBRUARY, 8);
+		cal.set(2017,  Calendar.SEPTEMBER, 1);
 		startDate = cal.getTime();
-		cal.set(2016,  Calendar.MAY, 26);
+		cal.set(2017,  Calendar.JANUARY, 1);
 		endDate = cal.getTime();
 		Semesters.add(new Semester(startDate, endDate));
 		UUID fallID = Semesters.get(0).getSemesterID();
 		
 		Sections = new ArrayList<Section>(6);
-		for (Semester s : Semesters) {
-			for (Course c : Courses) {
-				Sections.add(new Section(c.getCourseID(), s.getSemesterID()));
+		for (Semester semester : Semesters) {
+			for (Course course : Courses) {
+				Sections.add(new Section(course.getCourseID(), semester.getSemesterID()));
 			}
 		}
-		
-		int i = 0;
-		double[] grades = { 4.0, 3.0, 2.0 };
-		Enrollment enr = null;
-		EnrollmentDesignation = new ArrayList<Enrollment>(60);
-		for (Section s: Sections) {
-			for (Student stnt : Students) {
-				enr = new Enrollment(stnt.getStudentID(), s.getSectionID());
-				if (s.getSemesterID() == fallID) {
-					enr.setGrade(grades[i % 3]);
-				} else {
-					enr.setGrade(grades[i % 2]);
-				}
-				EnrollmentDesignation.add(enr);
-				i++;
-			}}}
 
-	@Test
-	public void testSizes() {
-		assertEquals(Students.size(), 10);
-		assertEquals(Courses.size(),   3);
-		assertEquals(Semesters.size(), 2);
-		assertEquals(Sections.size(),  6);
-		assertEquals(EnrollmentDesignation.size(),  60);
-	}
-	
-	@Test
-	public void testStudentGrades() {
-		System.out.println("\nTest of average student grades");
-		double[] grades = new double[10];
-		int idx = 0;
-		for (Student s : Students) {
-			System.out.print(s.getFirstName() + " " + s.getLastName());
-			int pointSum = 0;
-			double gradePointSum = 0.0;
-			for (Course c : Courses) { 
-				for (Section sec : Sections) {
-					if (sec.getCourseID() != c.getCourseID()) {
-						continue;
-					}
-					for (Enrollment e : EnrollmentDesignation) {
-						if (e.getStudentID() == s.getStudentID()) {
-							pointSum += c.getGradePoints();
-							gradePointSum += e.getGrade() * c.getGradePoints();
-						}
-					}
-				}
-			}
-			double avg = gradePointSum / (double) pointSum;
-			grades[idx++] = avg;
-		}
-		assertEquals(grades[0], 3.5, 0.0001);
-		assertEquals(grades[1], 3.0, 0.0001);
-		assertEquals(grades[2], 3.5, 0.0001);
-		assertEquals(grades[3], 3.0, 0.0001);
-		assertEquals(grades[4], 3.5, 0.0001);
-		assertEquals(grades[5], 3.0, 0.0001);
-		assertEquals(grades[6], 3.5, 0.0001);
-		assertEquals(grades[7], 3.0, 0.0001);
-		assertEquals(grades[8], 3.5, 0.0001);
-		assertEquals(grades[9], 3.0, 0.0001);
-	}
-	
-	// Course Grade Average TODO
+	// Course Grade Average and Student's GPA TODO
 	//Could not do
 	
 	@Test
