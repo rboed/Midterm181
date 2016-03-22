@@ -1,9 +1,11 @@
 package com.cisc181.core;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Date;
+import exceptions.PersonException;
+
 
 /*
  * comment
@@ -46,10 +48,8 @@ public abstract class Person implements java.io.Serializable {
 		return DOB;
 	}
 
-	public void setDOB(Date DOB){
+	public void setDOB(Date DOB) throws PersonException{
 		this.DOB = DOB;
-		
-		
 	}
 
 	public void setAddress(String newAddress) {
@@ -60,8 +60,12 @@ public abstract class Person implements java.io.Serializable {
 		return address;
 	}
 
-	public void setPhone(String newPhone_number) {
+	public void setPhone(String newPhone_number) throws PersonException {
 		phone_number = newPhone_number;
+		if (!newPhone_number.matches("^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$")) {
+			System.out.println("Number is wrong");
+			throw new PersonException(this);
+		}
 	
 	}
 
@@ -94,9 +98,19 @@ public abstract class Person implements java.io.Serializable {
 		this.FirstName = FirstName;
 		this.MiddleName = MiddleName;
 		this.LastName = LastName;
-		this.setDOB(DOB);
+		try {
+			this.setDOB(DOB);
+		} catch (PersonException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		this.address = Address;
-		this.setPhone(Phone_number);
+		try {
+			this.setPhone(Phone_number);
+		} catch (PersonException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.email_address = Email;
 		
 	}
@@ -135,10 +149,7 @@ public abstract class Person implements java.io.Serializable {
 						.get(Calendar.DAY_OF_MONTH))) {
 			age--;
 		}
-
 		System.out.println("age is " + age);
-
 		return age;
-
 	}
 }

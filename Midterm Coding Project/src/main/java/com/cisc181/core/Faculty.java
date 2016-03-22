@@ -1,6 +1,6 @@
 package com.cisc181.core;
-
 import java.util.Date;
+import exceptions.PersonException;
 
 public class Faculty extends Employee {
 
@@ -34,5 +34,4 @@ public class Faculty extends Employee {
 		this.officeHours = officeHours;
 		this.rank = rank;
 	}
-
 }
